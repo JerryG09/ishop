@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { enableScreens } from 'react-native-screens';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
@@ -9,16 +9,24 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import ShopNavigator from './navigation/ShopNavigation'
 
 import productReducer from './store/reducers/products';
-import cartReducer from './store/reducers/cart'
+import cartReducer from './store/reducers/cart';
+import ordersReducer from './store/reducers/orders';
+
+import { logger } from 'redux-logger';
 
 enableScreens()
 
+const middlewares = [logger]
+const middlewaresEnhancers = applyMiddleware(...middlewares)
+const composeEnhncers = compose(middlewaresEnhancers)
+
 const rootReducer = combineReducers({
   products: productReducer,
-  cart: cartReducer
+  cart: cartReducer,
+  orders: ordersReducer,
 });
 
-const store  = createStore(rootReducer, composeWithDevTools())
+const store  = createStore(rootReducer, composeEnhncers)
 
 const fetchFonts = () => {
   return Font.loadAsync({
