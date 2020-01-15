@@ -5,11 +5,13 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import { Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'
 
+// Screens
 import ProductOverviewScreen from '../screens/shop/ProductOverviewScreen';
 import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import OrderScreen from '../screens/shop/OrdersScreen';
-import UserProductsScreen from '../screens/user/UserProductsScreen'
+import UserProductsScreen from '../screens/user/UserProductsScreen';
+import EditProductScreen from '../screens/user/EditProducts';
 
 import Colors from '../constants/Colors';
 
@@ -61,7 +63,8 @@ const OrdersNavigator = createStackNavigator({
 })
 
 const AdminNavigator = createStackNavigator({
-  UserProducts: UserProductsScreen
+  UserProducts: UserProductsScreen,
+  EditProduct: EditProductScreen
 }, {
   // set drawer icon for orders
   navigationOptions: {
