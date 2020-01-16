@@ -23,19 +23,14 @@ const OrderItem = props => {
       
       {showDetails && (
         <View style={styles.detailItem}>
-          {props.items.map(cartItem => {
-            // Todo: Not displaying
-
-            
-            // {console.log(cartItem)}
-            // {console.log(showDetails)}
+          {props.items.map(cartItem => (
             <CartItem 
               key={cartItem.productId}
               quantity={cartItem.quantity}
               amount={cartItem.sum}
               title={cartItem.productTitle}
             />
-          })}
+          ))}
         </View>
       )}
     </View>
