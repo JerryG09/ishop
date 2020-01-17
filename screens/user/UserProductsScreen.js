@@ -20,11 +20,11 @@ const UserProductScreen = props => {
     });
   }
 
-  const deleteHandler = () => {
+  const deleteHandler = (id) => {
     Alert.alert('Are you sure?', 'Do you really want to delete this item?', [
       {text: 'No', style: 'default'},
       {text: 'Yes', style: 'destructive', onPress: () => {
-        dispatch(productActions.deleteProduct(itemData.item.id))
+        dispatch(productActions.deleteProduct(id))
       }}
     ])
   }
@@ -53,7 +53,9 @@ const UserProductScreen = props => {
           <Button
             color={Colors.primary}
             title="Delete"
-            onPress={deleteHandler}
+            onPress={() => {
+              deleteHandler(itemData.item.id)
+            }}
           />
         </ProductItem>
       )}
