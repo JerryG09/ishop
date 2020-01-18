@@ -4,7 +4,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
-import { composeWithDevTools } from 'redux-devtools-extension';
+// import { composeWithDevTools } from 'redux-devtools-extension';
 import ReduxThunk from 'redux-thunk';
 
 import ShopNavigator from './navigation/ShopNavigation'
@@ -17,7 +17,7 @@ import { logger } from 'redux-logger';
 
 enableScreens()
 
-const middlewares = [logger, ReduxThunk]
+const middlewares = [ReduxThunk]
 const middlewaresEnhancers = applyMiddleware(...middlewares)
 const composeEnhancers = compose(middlewaresEnhancers)
 
