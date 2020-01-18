@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { FlatList, Button, Platform, ActivityIndicator, View, StyleSheet } from 'react-native'
+import React, { useEffect, useState, useCallback } from 'react';
+import { FlatList, Button, Platform, ActivityIndicator, View, StyleSheet, Text } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -10,26 +10,44 @@ import HeaderButton from '../../components/UI/HeaderButton'
 
 import Colors from '../../constants/Colors'
 
-
 const ProductsOverviewScreen = props => {
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState()
   const products = useSelector(state => state.products.availableProducts);
   const dispatch = useDispatch();
+  const loadProducts = useCallback(async () => {
+    setError(null)
+    setIsLoading(true);
+    try {
+      await dispatch(productsActions.fetchProducts());
+    } catch (err) {
+      setError(err.message);
+    }
+    setIsLoading(false)
+  }, [dispatch, setIsLoading, setError]);
 
   useEffect(() => {
-    const loadProducts = async () => {
-      setIsLoading(true)
-      await dispatch(productsActions.fetchProducts());
-      setIsLoading(false)
-    };
     loadProducts();
-  }, [dispatch])
+  }, [dispatch, loadProducts])
 
   const selectItemHandler = (id, title) => {
     props.navigation.navigate('ProductDetail', {
       productId: id,
       productTitle: title
     });
+  }
+
+  if (error) {
+    return (
+      <View style={styles.centered}>
+        <Text>An error occured!</Text>
+        <Button 
+          title='Try again'
+          onPress={loadProducts} 
+          color={Colors.primary} 
+        />
+      </View>
+    )
   }
 
   if (isLoading) {
@@ -41,6 +59,14 @@ const ProductsOverviewScreen = props => {
         />
       </View>
     )
+  }
+
+  if (!isLoading && products.length === 0) {
+    return (
+      <View style={styles.centered}>
+        <Text>No products found. Maybe start adding some!</Text>
+      </View>
+    );
   }
 
   return (
