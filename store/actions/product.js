@@ -67,8 +67,6 @@ export const createProduct = (title, description, imageUrl, price) => {
 
     const resData = await response.json();
 
-    // console.log(resData)
-
     dispatch({
       type: CREATE_PRODUCT,
       productData: {
@@ -82,14 +80,35 @@ export const createProduct = (title, description, imageUrl, price) => {
   }
 }
 
+// `https://ishop-2c8bd.firebaseio.com/products/${id}.json`
 export const updateProduct = (id, title, description, imageUrl) => {
-  return {
-    type: UPDATE_PRODUCT,
-    pid: id,
-    productData: {
-      title,
-      description,
-      imageUrl,
-    }
-  }
-}
+  return async dispatch => {
+    const response = await fetch(
+      `https://ishop-2c8bd.firebaseio.com/products/${id}.json`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          imageUrl,
+        })
+      }
+    );
+
+    const resData = await response.json();
+    console.log(resData)
+
+    dispatch({
+      type: UPDATE_PRODUCT,
+      pid: id,
+      productData: {
+        title,
+        description,
+        imageUrl
+      }
+    });
+  };
+};
