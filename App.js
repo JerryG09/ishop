@@ -4,7 +4,8 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
-import { composeWithDevTools } from 'redux-devtools-extension'
+import { composeWithDevTools } from 'redux-devtools-extension';
+import ReduxThunk from 'redux-thunk';
 
 import ShopNavigator from './navigation/ShopNavigation'
 
@@ -16,9 +17,9 @@ import { logger } from 'redux-logger';
 
 enableScreens()
 
-const middlewares = [logger]
+const middlewares = [logger, ReduxThunk]
 const middlewaresEnhancers = applyMiddleware(...middlewares)
-const composeEnhncers = compose(middlewaresEnhancers)
+const composeEnhancers = compose(middlewaresEnhancers)
 
 const rootReducer = combineReducers({
   products: productReducer,
@@ -26,7 +27,7 @@ const rootReducer = combineReducers({
   orders: ordersReducer,
 });
 
-const store  = createStore(rootReducer, composeEnhncers)
+const store  = createStore(rootReducer, composeEnhancers)
 
 const fetchFonts = () => {
   return Font.loadAsync({
