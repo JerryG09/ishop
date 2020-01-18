@@ -1,5 +1,5 @@
 import PRODUCTS from '../../data/mockData'
-import { DELETE_PRODUCT, CREATE_PRODUCT, UPDATE_PRODUCT } from '../actions/product'
+import { DELETE_PRODUCT, CREATE_PRODUCT, UPDATE_PRODUCT, SET_PRODUCTS } from '../actions/product'
 import Product from '../../models/product'
 
 
@@ -10,6 +10,11 @@ const initalState = {
 
 export default (state = initalState, action) => {
   switch(action.type) {
+    case SET_PRODUCTS:
+      return {
+        availableProducts: action.products,
+        userProducts: action.products.filter(prod => prod.ownerId === 'u1')
+      }
     case CREATE_PRODUCT:
       const newProduct = new Product(
         action.product.id,
