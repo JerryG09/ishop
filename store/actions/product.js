@@ -43,9 +43,17 @@ export const fetchProducts = () => {
 }
 
 export const deleteProduct = productId => {
-  return {
-    type: DELETE_PRODUCT,
-    pid: productId
+  return async dispatch => {
+    await fetch(
+      `https://ishop-2c8bd.firebaseio.com/products/${productId}.json`,
+      {
+        method: 'DELETE'
+      }
+    )
+    dispatch({
+      type: DELETE_PRODUCT,
+      pid: productId
+    })
   }
 }
 
